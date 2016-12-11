@@ -29,7 +29,7 @@
 	 * setting a width and height has no effect. In fact, the only styles
 	 * I've found it responds to is font-size, background-image and color.
 	 * To combat the image repeating, we have to get a create a font bounding
-	 * box so to speak with the unicode box characters. EDIT: See Readme.md
+	 * box so to speak with the unicode box characters.
 	 *
 	 * @param  {int} width  The height of the box
 	 * @param  {int} height The width of the box
@@ -40,83 +40,6 @@
 			string: "+",
 			style: "font-size: 1px; padding: " + Math.floor(height/2) + "px " + Math.floor(width/2) + "px; line-height: " + height + "px;"
 		}
-	}
-
-	/**
-	 * Draw's meme text on a context.
-	 *
-	 * @param  {CanvasRenderingContext2D} ctx   The canvas context
-	 * @param  {string} type  "upper"|"lower"
-	 * @param  {string} text  The text to draw
-	 * @param  {int} width The width of the image
-	 * @param  {int} y     The y value to draw at
-	 * @return {null}
-	 */
-	function drawMemeText(ctx, type, text, width, y) {
-		text = text.toUpperCase();
-		//Determine the font size
-		if(text.length < 24) {
-			var val = Math.max(0, text.length - 12),
-				size = 70 + (val * - 3);
-
-			drawText(ctx, size, text, width/2, y);
-		} else if(text.length < 29) {
-			drawText(ctx, 40, text, width/2, y);
-		} else {
-			var strs = wrap(text, 27);
-			strs.forEach(function(str, i) {
-				drawText(ctx, 40, str, width/2, (type == "lower") ? (y - ((strs.length - 1) * 40)) + (i * 40) : y + (i * 40));
-			});
-		}
-	}
-
-	/**
-	 * Draws text in impact font with stroke on context
-	 *
-	 * @param  {CanvasRenderingContext2D} ctx  The canvas context
-	 * @param  {int} size Font size
-	 * @param  {string} text The string to write
-	 * @param  {int} x    X Position
-	 * @param  {int} y    Y position
-	 * @return {null}
-	 */
-	function drawText(ctx, size, text, x, y) {
-		//Set the text styles
-		ctx.font = "bold " + size + "px Impact";
-		ctx.fillStyle = "#fff";
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.lineWidth = 7;
-		ctx.strokeStyle = "#000";
-		ctx.strokeText(text, x, y);
-		ctx.fillText(text, x, y);
-	}
-
-	/**
-	 * Wrap a line of text at an index
-	 *
-	 * @param  {string} text The text
-	 * @param  {int} num  The index to wrap at
-	 * @return {array}      Array of text
-	 */
-	function wrap(text, num) {
-		var output = [],
-			split = text.split(" ");
-
-		var str = [];
-		for(var i = 0, cache = split.length; i < cache; i++) {
-			if((str + split[i]).length < num) str.push(split[i])
-			else {
-				output.push(str.join(" "));
-				str.length = 0;
-				str.push(split[i]);
-			}
-		}
-
-		//Push the final line
-		output.push(str.join(" "));
-
-		return output;
 	}
 
 	/**
